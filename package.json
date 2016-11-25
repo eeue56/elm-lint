@@ -1,0 +1,19 @@
+{
+  "name": "elm-lint",
+  "version": "1.0.0",
+  "description": "A linter for Elm",
+  "main": "index.js",
+  "scripts": {
+    "test": "./run_tests.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eeue56/elm-lint.git"
+  },
+  "author": "eeue56",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/eeue56/elm-lint/issues"
+  },
+  "homepage": "https://github.com/eeue56/elm-lint#readme"
+}
