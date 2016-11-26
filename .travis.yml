@@ -4,21 +4,15 @@ cache:
   directories:
     - test/elm-stuff/build-artifacts
 
-os:
-  - linux
 
-env:
-  matrix:
-    - ELM_VERSION=0.18 TARGET_NODE_VERSION=node
+language: node_js
+node_js:
+  - "node"
 
 before_install:
   - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 install:
-  - nvm install $TARGET_NODE_VERSION
-  - nvm use $TARGET_NODE_VERSION
-  - node --version
-  - npm --version
   - npm install
   - npm install --dev
   - git clone https://github.com/NoRedInk/elm-ops-tooling
