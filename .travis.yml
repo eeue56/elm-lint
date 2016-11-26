@@ -4,6 +4,7 @@ cache:
   directories:
     - test/elm-stuff/build-artifacts
     - sysconfcpus
+    - node_modules
 
 language: node_js
 node_js:
