@@ -25,4 +25,4 @@ install:
   - elm-ops-tooling/with_retry.rb node_modules/.bin/elm-package install --yes
 
 script:
-  - run_tests.sh
+  - ./run_tests.sh
