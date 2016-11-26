@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/eeue56/elm-lint/issues"
   },
-  "homepage": "https://github.com/eeue56/elm-lint#readme"
+  "homepage": "https://github.com/eeue56/elm-lint#readme",
+  "devDependencies": {
+    "elm": "^0.18.0",
+    "elm-test": "^0.18.0"
+  }
 }

@@ -1,7 +1,18 @@
+elm-stuff
+tests/Doc/
+
+
+
+
+
+# this is where excessive node gitignores start
+
+
 # Logs
 logs
 *.log
 npm-debug.log*
+
 
 # Runtime data
 pids
