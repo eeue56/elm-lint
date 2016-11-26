@@ -1,0 +1,28 @@
+sudo: false
+
+cache:
+  directories:
+    - test/elm-stuff/build-artifacts
+
+os:
+  - linux
+
+env:
+  matrix:
+    - ELM_VERSION=0.18 TARGET_NODE_VERSION=node
+
+before_install:
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
+install:
+  - nvm install $TARGET_NODE_VERSION
+  - nvm use $TARGET_NODE_VERSION
+  - node --version
+  - npm --version
+  - npm install
+  - npm install --dev
+  - git clone https://github.com/NoRedInk/elm-ops-tooling
+  - elm-ops-tooling/with_retry.rb node_modules/.bin/elm-package install --yes
+
+script:
+  - run_tests.sh
