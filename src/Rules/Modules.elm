@@ -54,10 +54,10 @@ isBadImport { badModuleNames } name =
     List.member name badModuleNames
 
 {-|
-   >>> badModules { badModuleNames = ["a", "b"] } ["import a", "import c"]
+   >>> badModules { badModuleNames = ["a", "b"] } [ "import a", "import c" ]
    [ "a" ]
 
-   >>> badModules { badModuleNames = ["a", "b"] } ["import a", "import b"]
+   >>> badModules { badModuleNames = ["a", "b"] } [ "import a", "import b" ]
    [ "a", "b" ]
 
    >>> badModules { badModuleNames = ["a", "b"] } ["a", "junk", "import acdf" "import a", "import b"]
@@ -66,4 +66,5 @@ isBadImport { badModuleNames } name =
 badModules : ModuleConfig a -> List String -> List String
 badModules config =
     List.Extra.takeWhile isImport
+        >> List.map moduleName
         >> List.filter (isBadImport config)
