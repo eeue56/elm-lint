@@ -2,11 +2,12 @@ module Rules.Modules exposing (..)
 
 import String
 import List.Extra
+import Dict exposing (Dict)
 
 
 type alias ModuleConfig a =
     { a
-    | badModuleNames : List String
+    | badModules : Dict String String
     }
 
 {-|
@@ -40,27 +41,27 @@ moduleName =
 
 
 {-|
-    >>> isBadImport { badModuleNames = ["a"] } "a"
+    >>> isBadImport { badModules = Dict.fromList [("a", "")] } "a"
     True
 
-    >>> isBadImport { badModuleNames = ["a", "b"] } "b"
+    >>> isBadImport { badModules = Dict.fromList [("a", ""), ("b", "")] } "b"
     True
 
-    >>> isBadImport { badModuleNames = ["a"] } "b"
+    >>> isBadImport { badModules = Dict.fromList [("a", "")] } "b"
     False
 -}
 isBadImport : ModuleConfig a -> String -> Bool
-isBadImport { badModuleNames } name =
-    List.member name badModuleNames
+isBadImport { badModules } name =
+    List.member name (Dict.keys badModules)
 
 {-|
-   >>> badModules { badModuleNames = ["a", "b"] } [ "import a", "import c" ]
+   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import c" ]
    [ "a" ]
 
-   >>> badModules { badModuleNames = ["a", "b"] } [ "import a", "import b" ]
+   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
    [ "a", "b" ]
 
-   >>> badModules { badModuleNames = ["a", "b"] } ["a", "junk", "import acdf" "import a", "import b"]
+   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf" "import a", "import b"]
    [ "a", "b" ]
 -}
 badModules : ModuleConfig a -> List String -> List String
@@ -68,3 +69,28 @@ badModules config =
     List.Extra.takeWhile isImport
         >> List.map moduleName
         >> List.filter (isBadImport config)
+
+
+{-|
+    >>> suggestImprovement { badModules = Dict.fromList [ ("a", "a is bad because") ] } "a"
+    Just "a is bad because"
+
+    >>> suggestImprovement { badModules = Dict.fromList [ ("a", "a is bad because") ] } "b"
+    Nothing
+-}
+suggestImprovement : ModuleConfig a -> String -> Maybe String
+suggestImprovement config moduleName =
+    Dict.get moduleName config.badModules
+
+
+{-|
+    >>> suggestImprovements { badModules = Dict.fromList [ ("a", "a is bad because") ] } ["import a"]
+    ["a is bad because"]
+
+    >>> suggestImprovements { badModules = Dict.fromList [ ("a", "a is bad because") ] } ["import b"]
+    []
+-}
+suggestImprovements : ModuleConfig a -> List String -> List String
+suggestImprovements config =
+    List.Extra.takeWhile isImport
+        >> List.filterMap (suggestImprovement config << moduleName)
