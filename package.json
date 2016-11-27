@@ -21,7 +21,7 @@
   "homepage": "https://github.com/eeue56/elm-lint#readme",
   "devDependencies": {
     "elm": "^0.18.0",
-    "elm-doc-test": "^1.0.5",
+    "elm-doc-test": "^1.1.0",
     "elm-test": "^0.18.0"
   },
   "directories": {
