@@ -36,3 +36,13 @@ pathJoin =
 glob : String -> List String
 glob pattern =
     Native.IO.glob pattern
+
+
+{-|
+    >>> readFile "doesnotexist"
+    Err "ENOENT: no such file or directory, open 'doesnotexist'"
+
+-}
+readFile : String -> Result String String
+readFile filename =
+    Native.IO.readFile filename

@@ -44,12 +44,28 @@ var glob = function(pattern){
     return elmListFromArray(matches);
 };
 
+var readFile = function(filename){
+    var fs = require('fs');
+
+    try {
+        return {
+            ctor:'Ok',
+            _0: fs.readFileSync(filename)
+        };
+    } catch (e){
+        return {
+            ctor: 'Err',
+            _0: e.message
+        };
+    }
+};
 
 return {
     loadJson: loadJson,
     currentDir: process.cwd(),
     pathJoin: F2(pathJoin),
-    glob: glob
+    glob: glob,
+    readFile: readFile
 };
 
 }();
