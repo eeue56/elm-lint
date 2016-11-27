@@ -16,3 +16,11 @@ loadJson filename = Native.IO.loadJson filename
 currentDir : String
 currentDir =
     Native.IO.currentDir
+
+{-|
+    >>> pathJoin "here" "okay"
+    "here/okay"
+-}
+pathJoin : String -> String -> String
+pathJoin =
+    Native.IO.pathJoin

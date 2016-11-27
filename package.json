@@ -2,9 +2,12 @@
   "name": "elm-lint",
   "version": "1.0.0",
   "description": "A linter for Elm",
-  "main": "index.js",
+  "main": "bin/runner.js",
   "scripts": {
     "test": "./run_tests.sh"
+  },
+  "bin": {
+    "elm-lint": "bin/runner.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,10 @@
     "elm": "^0.18.0",
     "elm-doc-test": "^1.0.5",
     "elm-test": "^0.18.0"
+  },
+  "directories": {
+    "test": "tests",
+    "bin": "bin",
+    "lib": "src"
   }
 }

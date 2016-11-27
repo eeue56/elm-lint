@@ -9,8 +9,14 @@ var loadJson = function(filename) {
     return { 'ctor': 'Ok', _0: data };
 };
 
+var pathJoin = function(a, b){
+    var path = require('path');
+
+    return path.join(a, b);
+};
 
 var _eeue56$elm_lint$Native_IO = {
     loadJson: loadJson,
-    currentDir: process.cwd()
+    currentDir: process.cwd(),
+    pathJoin: F2(pathJoin)
 };

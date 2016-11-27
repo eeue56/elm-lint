@@ -1,0 +1,5 @@
+{
+    "badModules": {
+        "Array": "Array is dangerously broken! Use http://package.elm-lang.org/packages/Skinney/elm-array-exploration/latest"
+    }
+}
