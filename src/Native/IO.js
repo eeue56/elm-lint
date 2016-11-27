@@ -1,3 +1,22 @@
+var _eeue56$elm_lint$Native_IO = function(){
+
+function elmListFromArray(arr) {
+    var out = { 'ctor': '[]' };
+    for (var i = arr.length; i--; ) {
+        out = { 'ctor': '::', _0:arr[i], _1:out };
+    }
+    return out;
+}
+
+function elmListToArray(xs) {
+    var out = [];
+    while (xs.ctor !== '[]') {
+        out.push(xs._0);
+        xs = xs._1;
+    }
+    return out;
+}
+
 var loadJson = function(filename) {
     var data = null;
 
@@ -15,8 +34,22 @@ var pathJoin = function(a, b){
     return path.join(a, b);
 };
 
-var _eeue56$elm_lint$Native_IO = {
+var glob = function(pattern){
+    var glob = require('glob');
+
+    var matches = glob.sync(pattern, {
+        absolute: true
+    });
+
+    return elmListFromArray(matches);
+};
+
+
+return {
     loadJson: loadJson,
     currentDir: process.cwd(),
-    pathJoin: F2(pathJoin)
+    pathJoin: F2(pathJoin),
+    glob: glob
 };
+
+}();

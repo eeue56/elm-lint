@@ -78,6 +78,19 @@ tryToLoadElmPackage config =
             (GoodFlags { elmPackageConfig = elmPackageConfig, config = config }, Cmd.none)
         )
 
+{-|
+    >>> either (Ok "")
+    ""
+
+    >>> either (Err "a")
+    "a"
+-}
+either : Result a a -> a
+either result =
+    case result of
+        Err v -> v
+        Ok v -> v
+
 init : Flags -> (InitModel, Cmd Msg)
 init flags =
     let
@@ -86,11 +99,7 @@ init flags =
         loadConfig withDefaults
             |> Result.mapError (failedToLoadConfig flags)
             |> Result.andThen (\config -> tryToLoadElmPackage config)
-            |> (\result ->
-                case result of
-                    Err v -> v
-                    Ok v -> v
-                )
+            |> either
 
 
 main : Program Flags InitModel Msg

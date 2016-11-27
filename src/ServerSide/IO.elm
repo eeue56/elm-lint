@@ -24,3 +24,15 @@ currentDir =
 pathJoin : String -> String -> String
 pathJoin =
     Native.IO.pathJoin
+
+
+{-|
+    >>> glob "impossible"
+    []
+
+    >>> glob "elm-package.json" |> List.length
+    1
+-}
+glob : String -> List String
+glob pattern =
+    Native.IO.glob pattern
