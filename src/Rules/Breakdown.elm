@@ -58,6 +58,7 @@ createFileBreakdown text =
         firstEquals =
             indexOfLineWithEquals asLines
 
+        -- TODO: this can be optimzied by just looking at the lines up to the first equals
         firstImport =
             indexOfLineWithImport asLines
     in
