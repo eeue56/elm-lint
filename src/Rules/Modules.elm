@@ -69,7 +69,7 @@ isBadImport { badModules } name =
 -}
 badModules : ModuleConfig a -> List String -> List String
 badModules config =
-    List.Extra.takeWhile isImport
+    List.filter isImport
         >> List.map moduleName
         >> List.filter (isBadImport config)
 
