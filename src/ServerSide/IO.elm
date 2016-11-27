@@ -46,3 +46,7 @@ glob pattern =
 readFile : String -> Result String String
 readFile filename =
     Native.IO.readFile filename
+
+
+log : a -> a
+log = Native.IO.log

@@ -38,7 +38,8 @@ var glob = function(pattern){
     var glob = require('glob');
 
     var matches = glob.sync(pattern, {
-        absolute: true
+        absolute: true,
+        nodir: true
     });
 
     return elmListFromArray(matches);
@@ -50,7 +51,7 @@ var readFile = function(filename){
     try {
         return {
             ctor:'Ok',
-            _0: fs.readFileSync(filename)
+            _0: fs.readFileSync(filename, "utf-8")
         };
     } catch (e){
         return {
@@ -60,12 +61,18 @@ var readFile = function(filename){
     }
 };
 
+var log = function(message){
+    console.log(message);
+    return message;
+};
+
 return {
     loadJson: loadJson,
     currentDir: process.cwd(),
     pathJoin: F2(pathJoin),
     glob: glob,
-    readFile: readFile
+    readFile: readFile,
+    log: log
 };
 
 }();

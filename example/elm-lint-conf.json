@@ -1,5 +1,7 @@
 {
     "badModules": {
-        "Array": "Array is dangerously broken! Use http://package.elm-lang.org/packages/Skinney/elm-array-exploration/latest"
+        "Array": "FATAL: Array is dangerously broken! Use elm-array-exploration instead!",
+        "Graphics": "Warning: elm-graphics is slow! Try using HTML, SVG, or webgl instead.",
+        "Markdown": "Warning: elm-markdown allows for XSS. Ensure to escape everything correctly"
     }
 }

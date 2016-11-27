@@ -28,5 +28,11 @@
     "test": "tests",
     "bin": "bin",
     "lib": "src"
+  },
+  "files": [
+    "bin/elm.js"
+  ],
+  "dependencies": {
+    "glob": "^7.1.1"
   }
 }

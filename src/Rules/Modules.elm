@@ -92,5 +92,5 @@ suggestImprovement config moduleName =
 -}
 suggestImprovements : ModuleConfig a -> List String -> List String
 suggestImprovements config =
-    List.Extra.takeWhile isImport
+    List.filter isImport
         >> List.filterMap (suggestImprovement config << moduleName)

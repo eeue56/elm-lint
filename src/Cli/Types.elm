@@ -19,6 +19,7 @@ type alias Model =
     { config : Config
     , elmPackageConfig : ElmPackage.ElmPackage
     , currentFilename : Maybe String
+    , allFilenames : List String
     }
 
 

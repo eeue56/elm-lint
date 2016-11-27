@@ -2,9 +2,11 @@ module Main exposing (..)
 
 import Platform
 import Json.Decode as Json
+import Task
 
 import ElmPackage
 import ServerSide.IO
+import Helpers exposing (either)
 
 import Cli.Types exposing (..)
 import Cli.Messages exposing (..)
@@ -38,23 +40,11 @@ tryToLoadElmPackage config =
                 { elmPackageConfig = elmPackageConfig
                 , config = config
                 , currentFilename = Nothing
+                , allFilenames = []
                 }
-            , Cmd.none
+            , Task.perform (\_ -> Start) (Task.succeed ())
             )
         )
-
-{-|
-    >>> either (Ok "")
-    ""
-
-    >>> either (Err "a")
-    "a"
--}
-either : Result a a -> a
-either result =
-    case result of
-        Err v -> v
-        Ok v -> v
 
 init : Flags -> (InitModel, Cmd Msg)
 init flags =
