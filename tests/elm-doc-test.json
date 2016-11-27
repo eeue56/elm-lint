@@ -1,7 +1,9 @@
 {
   "root": "../src",
   "tests": [
+    "Rules.Breakdown",
     "Rules.Modules",
+    "Rules.Types",
     "ServerSide.IO"
   ]
 }
