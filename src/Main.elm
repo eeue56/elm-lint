@@ -1,41 +1,15 @@
 module Main exposing (..)
 
-import Rules.Modules exposing (badModules, ModuleConfig)
 import Platform
 import Json.Decode as Json
+
+import ElmPackage
 import ServerSide.IO
-import ElmPackage exposing (ElmPackage)
 
+import Cli.Types exposing (..)
+import Cli.Messages exposing (..)
+import Cli.Update exposing (..)
 
-type alias Config =
-    ModuleConfig {}
-
-
-decodeConfig : Json.Decoder Config
-decodeConfig =
-    Json.map (\modules -> { badModules = modules})
-        (Json.field "badModules" (Json.dict Json.string))
-
-
-type alias Model =
-    { config : Config
-    , elmPackageConfig : ElmPackage.ElmPackage
-    }
-
-
-type InitModel
-    = BadFlags Flags
-    | GoodFlags Model
-    | BadElmPackage
-
-type alias Flags =
-    { configFile : Maybe String }
-
-type alias RequiredFlags =
-    { configFile : String }
-
-type Msg =
-    NoOp
 
 toRequiredFlags : Flags -> RequiredFlags
 toRequiredFlags flags =
@@ -49,33 +23,24 @@ loadConfig flags =
     ServerSide.IO.loadJson flags.configFile
         |> Result.andThen (Json.decodeValue decodeConfig)
 
-loadElmPackage : Result String ElmPackage
+loadElmPackage : Result String ElmPackage.ElmPackage
 loadElmPackage =
     ServerSide.IO.loadJson (ServerSide.IO.pathJoin ServerSide.IO.currentDir "/elm-package.json")
         |> Result.andThen (Json.decodeValue ElmPackage.decodeElmPackage)
 
-
-failedToLoadConfig : Flags -> String -> (InitModel, Cmd Msg)
-failedToLoadConfig flags message =
-    let
-        _ = Debug.log "Failed to load lint config!" message
-    in
-        (BadFlags flags, Cmd.none)
-
-
-failedToLoadElmPackage : String -> (InitModel, Cmd Msg)
-failedToLoadElmPackage message =
-    let
-        _ = Debug.log "Failed to load elm-package.json!" message
-    in
-        (BadElmPackage, Cmd.none)
 
 tryToLoadElmPackage : Config -> Result (InitModel, Cmd Msg) (InitModel, Cmd Msg)
 tryToLoadElmPackage config =
     loadElmPackage
         |> Result.mapError failedToLoadElmPackage
         |> Result.map (\elmPackageConfig ->
-            (GoodFlags { elmPackageConfig = elmPackageConfig, config = config }, Cmd.none)
+            (GoodFlags
+                { elmPackageConfig = elmPackageConfig
+                , config = config
+                , currentFilename = Nothing
+                }
+            , Cmd.none
+            )
         )
 
 {-|
@@ -106,6 +71,6 @@ main : Program Flags InitModel Msg
 main =
     Platform.programWithFlags
         { init = init
-        , update = (\msg model -> (model, Cmd.none) )
+        , update = allUpdate
         , subscriptions = (\_ -> Sub.none)
         }
