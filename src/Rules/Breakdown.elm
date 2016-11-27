@@ -1,10 +1,12 @@
 module Rules.Breakdown exposing (..)
 
 import Array.Hamt as Array exposing (Array)
+import Rules.Modules
 
 
 type alias FileBreakdown =
-    { header : Array String
+    { moduleName : Array String
+    , imports : Array String
     , body : Array String
     }
 
@@ -25,10 +27,26 @@ indexOfLineWithEquals =
     ) (-1, 0)
         >> Tuple.first
 
+{-|
+    >>> indexOfLineWithImport <| Array.fromList <| String.lines "a\nb\nimport c\nf = d\n"
+    2
+-}
+indexOfLineWithImport : Array String -> Int
+indexOfLineWithImport =
+    Array.foldl (\line (number, index) ->
+        if number == -1 then
+            if Rules.Modules.isImport line then
+                (index, index)
+            else
+                (number, index + 1)
+        else
+            (number, index)
+    ) (-1, 0)
+        >> Tuple.first
 
 {-|
     >>> createFileBreakdown "module A exposing (..)\nimport List\nf = List.map"
-    { header = Array.fromList [ "module A exposing (..)", "import List"], body = Array.fromList ["f = List.map"]}
+    { moduleName = Array.fromList [ "module A exposing (..)" ], imports = Array.fromList ["import List"], body = Array.fromList ["f = List.map"]}
 -}
 createFileBreakdown : String -> FileBreakdown
 createFileBreakdown text =
@@ -39,9 +57,14 @@ createFileBreakdown text =
 
         firstEquals =
             indexOfLineWithEquals asLines
+
+        firstImport =
+            indexOfLineWithImport asLines
     in
-        { header =
-            Array.slice 0 firstEquals asLines
+        { moduleName =
+            Array.slice 0 firstImport asLines
+        , imports =
+            Array.slice firstImport firstEquals asLines
         , body =
             Array.slice firstEquals (Array.length asLines) asLines
         }
