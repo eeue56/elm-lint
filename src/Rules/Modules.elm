@@ -64,7 +64,7 @@ isBadImport { badModules } name =
     >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
     [ "a", "b" ]
 
-    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf" "import a", "import b"]
+    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf", "import a", "import b"]
     [ "a", "b" ]
 -}
 badModules : ModuleConfig a -> List String -> List String
