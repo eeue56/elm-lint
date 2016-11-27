@@ -7,8 +7,9 @@ import Dict exposing (Dict)
 
 type alias ModuleConfig a =
     { a
-    | badModules : Dict String String
+        | badModules : Dict String String
     }
+
 
 {-|
     >>> isImport "import Name"
@@ -20,6 +21,7 @@ type alias ModuleConfig a =
 isImport : String -> Bool
 isImport =
     String.startsWith "import "
+
 
 {-|
     >>> moduleName "import Name"
@@ -54,15 +56,16 @@ isBadImport : ModuleConfig a -> String -> Bool
 isBadImport { badModules } name =
     List.member name (Dict.keys badModules)
 
+
 {-|
-   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import c" ]
-   [ "a" ]
+    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import c" ]
+    [ "a" ]
 
-   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
-   [ "a", "b" ]
+    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
+    [ "a", "b" ]
 
-   >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf" "import a", "import b"]
-   [ "a", "b" ]
+    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf" "import a", "import b"]
+    [ "a", "b" ]
 -}
 badModules : ModuleConfig a -> List String -> List String
 badModules config =
