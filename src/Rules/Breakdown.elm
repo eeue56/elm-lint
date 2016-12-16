@@ -11,7 +11,9 @@ type alias FileBreakdown =
     }
 
 {-|
-    >>> indexOfLineWithEquals <| Array.fromList <| String.lines "a\nb\nc = d\nf = d\n"
+    >>> indexOfLineWithEquals
+    ...     <| Array.fromList
+    ...     <| String.lines "a\nb\nc = d\nf = d\n"
     2
 -}
 indexOfLineWithEquals : Array String -> Int
@@ -28,7 +30,9 @@ indexOfLineWithEquals =
         >> Tuple.first
 
 {-|
-    >>> indexOfLineWithImport <| Array.fromList <| String.lines "a\nb\nimport c\nf = d\n"
+    >>> indexOfLineWithImport
+    ...     <| Array.fromList
+    ...     <| String.lines "a\nb\nimport c\nf = d\n"
     2
 -}
 indexOfLineWithImport : Array String -> Int
@@ -46,7 +50,10 @@ indexOfLineWithImport =
 
 {-|
     >>> createFileBreakdown "module A exposing (..)\nimport List\nf = List.map"
-    { moduleName = Array.fromList [ "module A exposing (..)" ], imports = Array.fromList ["import List"], body = Array.fromList ["f = List.map"]}
+    { moduleName = Array.fromList [ "module A exposing (..)" ]
+    , imports = Array.fromList ["import List"]
+    , body = Array.fromList ["f = List.map"]
+    }
 -}
 createFileBreakdown : String -> FileBreakdown
 createFileBreakdown text =

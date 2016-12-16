@@ -30,7 +30,8 @@ pathJoin =
     >>> glob "impossible"
     []
 
-    >>> glob "elm-package.json" |> List.length
+    >>> glob "elm-package.json"
+    ...     |> List.length
     1
 -}
 glob : String -> List String
