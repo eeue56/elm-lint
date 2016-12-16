@@ -38,8 +38,10 @@ isUnionType input =
         False
 
 {-|
+    >>> import Dict exposing (fromList)
+
     >>> createUnionType "type Action = NoOp"
-    Ok { name = "Action", fields = Dict.fromList [("NoOp", ResolvedType "NoOp")] }
+    Ok { name = "Action", fields = fromList [("NoOp", ResolvedType "NoOp")] }
 
     >>> createUnionType "type alias Action = {}"
     Err "not a union type"

@@ -4,6 +4,7 @@
     "Rules.Breakdown",
     "Rules.Modules",
     "Rules.Types",
+    "Rules.Comments",
     "ServerSide.IO"
   ]
 }

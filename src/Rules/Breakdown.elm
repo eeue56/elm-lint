@@ -11,6 +11,7 @@ type alias FileBreakdown =
     }
 
 {-|
+    >>> import Array.Hamt as Array
     >>> indexOfLineWithEquals
     ...     <| Array.fromList
     ...     <| String.lines "a\nb\nc = d\nf = d\n"

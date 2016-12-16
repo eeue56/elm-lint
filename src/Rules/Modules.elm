@@ -43,13 +43,15 @@ moduleName =
 
 
 {-|
-    >>> isBadImport { badModules = Dict.fromList [("a", "")] } "a"
+    >>> import Dict exposing (fromList)
+
+    >>> isBadImport { badModules = fromList [("a", "")] } "a"
     True
 
-    >>> isBadImport { badModules = Dict.fromList [("a", ""), ("b", "")] } "b"
+    >>> isBadImport { badModules = fromList [("a", ""), ("b", "")] } "b"
     True
 
-    >>> isBadImport { badModules = Dict.fromList [("a", "")] } "b"
+    >>> isBadImport { badModules = fromList [("a", "")] } "b"
     False
 -}
 isBadImport : ModuleConfig a -> String -> Bool
@@ -58,13 +60,15 @@ isBadImport { badModules } name =
 
 
 {-|
-    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import c" ]
+    >>> import Dict exposing (fromList)
+
+    >>> badModules { badModules = fromList [("a", ""), ("b", "")] } [ "import a", "import c" ]
     [ "a" ]
 
-    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
+    >>> badModules { badModules = fromList [("a", ""), ("b", "")] } [ "import a", "import b" ]
     [ "a", "b" ]
 
-    >>> badModules { badModules = Dict.fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf", "import a", "import b"]
+    >>> badModules { badModules = fromList [("a", ""), ("b", "")] } ["a", "junk", "import acdf", "import a", "import b"]
     [ "a", "b" ]
 -}
 badModules : ModuleConfig a -> List String -> List String
@@ -75,10 +79,12 @@ badModules config =
 
 
 {-|
-    >>> suggestImprovement { badModules = Dict.fromList [ ("a", "a is bad because") ] } "a"
+    >>> import Dict exposing (fromList)
+
+    >>> suggestImprovement { badModules = fromList [ ("a", "a is bad because") ] } "a"
     Just "a is bad because"
 
-    >>> suggestImprovement { badModules = Dict.fromList [ ("a", "a is bad because") ] } "b"
+    >>> suggestImprovement { badModules = fromList [ ("a", "a is bad because") ] } "b"
     Nothing
 -}
 suggestImprovement : ModuleConfig a -> String -> Maybe String
@@ -87,10 +93,12 @@ suggestImprovement config moduleName =
 
 
 {-|
-    >>> suggestImprovements { badModules = Dict.fromList [ ("a", "a is bad because") ] } ["import a"]
+    >>> import Dict exposing (fromList)
+
+    >>> suggestImprovements { badModules = fromList [ ("a", "a is bad because") ] } ["import a"]
     ["a is bad because"]
 
-    >>> suggestImprovements { badModules = Dict.fromList [ ("a", "a is bad because") ] } ["import b"]
+    >>> suggestImprovements { badModules = fromList [ ("a", "a is bad because") ] } ["import b"]
     []
 -}
 suggestImprovements : ModuleConfig a -> List String -> List String
